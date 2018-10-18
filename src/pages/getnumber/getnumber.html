@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Retirar uma senha
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div>
+    <ion-row>
+      <ion-col>
+        <span>Por favor, utilize o leitor de QR code para retirar uma senha</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="fixedColumn">
+        <ion-icon class="iconText" (click)="sendRequest()" name="qr-scanner"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-8 offset-2>
+        <span class="qrText">{{messageFromAliens}}</span>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Status da sua senha</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div>
+    <ion-row>
+      <ion-col offset-2 col-8 class="allContent">
+        <div>
+          <ion-row>
+            <span class="textNumber">Sua senha é</span>
+          </ion-row>
+          <ion-row>
+            <span [ngClass]="(currentStatus.myNumber != null) ? 'number' : 'errorText'">{{currentStatus.myNumber != null ? currentStatus.myNumber : 'Por favor retire uma senha' }}</span>
+          </ion-row>
+        </div>
+        <div class="setMargin">
+          <ion-row>
+            <span class="textNumber">Senha Atual</span>
+          </ion-row>
+          <ion-row>
+            <span class="number">{{currentNumber}}</span>
+          </ion-row>
+        </div>
+        <div class="setMargin">
+          <ion-row>
+            <span class="customText">Previsão para atendimento</span>
+          </ion-row>
+          <ion-row>
+            <span class="number">{{averageTime}}</span>
+          </ion-row>
+          <ion-row>
+              <span class="customText">minutos</span>
+            </ion-row>
+        </div> 
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

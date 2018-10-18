@@ -1,0 +1,45 @@
+page-queue {
+    ion-content{
+        text-align: center;
+    }
+    .toolbar-md {
+        text-align: center;
+    }
+
+    .allContent {
+        text-align: center;
+        margin-top: 3em;
+    }
+
+    .allContent span {
+        width: 100%;
+    }
+    
+    .number {
+        font-size: 3em;
+        color: #4d4d4d;
+    }
+    
+    .errorText {
+        font-size: 1.1em;
+        margin-top: .2em;
+        color: rgb(211, 46, 46);
+    }
+
+    .textNumber {
+        font-size: 1.5em;
+        color: #919191;
+        text-transform: uppercase;
+    }
+
+    .customText {
+        font-size: 1em;
+        color: #919191;
+        text-transform: uppercase;
+    }
+
+    .setMargin {
+        margin-top: 3em;
+    }
+
+}
