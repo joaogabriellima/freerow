@@ -13,7 +13,7 @@
             <span class="textNumber">Sua senha é</span>
           </ion-row>
           <ion-row>
-            <span [ngClass]="(currentStatus.myNumber != null) ? 'number' : 'errorText'">{{currentStatus.myNumber != null ? currentStatus.myNumber : 'Por favor retire uma senha' }}</span>
+            <span [ngClass]="(parameters.MinhaSenha != null) ? 'number' : 'errorText'">{{parameters.MinhaSenha != null ? parameters.MinhaSenha : 'Por favor retire uma senha' }}</span>
           </ion-row>
         </div>
         <div class="setMargin">
@@ -21,7 +21,7 @@
             <span class="textNumber">Senha Atual</span>
           </ion-row>
           <ion-row>
-            <span class="number">{{currentNumber}}</span>
+            <span class="number">{{parameters.SenhaAtual}}</span>
           </ion-row>
         </div>
         <div class="setMargin">
@@ -29,7 +29,7 @@
             <span class="customText">Previsão para atendimento</span>
           </ion-row>
           <ion-row>
-            <span class="number">{{averageTime}}</span>
+            <span class="number">{{this.parameters.AverageTime != null ? this.parameters.AverageTime : '0'}}</span>
           </ion-row>
           <ion-row>
               <span class="customText">minutos</span>

@@ -11,7 +11,8 @@ import { StatisticsPage } from '../statistics/statistics';
 export class TabsPage {
 
   tab1Root = GetNumberPage;
-  tab2Root = StatisticsPage;
+  tab2Root = QueuePage;
+  tab3Root = StatisticsPage;
   
   constructor() {
 

@@ -1,19 +1,28 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 @Component({
   selector: 'page-queue',
   templateUrl: 'queue.html'
 })
 export class QueuePage {
-  public myNumber: any = null;
-  public currentNumber: any = null;
-  public averageTime: any = null;
-
-  constructor(public navCtrl: NavController) {
-    this.myNumber = 80;
-    this.currentNumber = 73;
-    this.averageTime = 30;
+  
+  parameters = {
+    MinhaSenha: null,
+    Data: null,
+    AverageTime: null,
+    SenhaAtual: null
   }
-
+  
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    
+    
+  }
+  
+  ionViewWillEnter() {
+    setTimeout(() => {
+      this.parameters = this.navParams.get('params');
+    }, 100);
+  }
+  
 }
