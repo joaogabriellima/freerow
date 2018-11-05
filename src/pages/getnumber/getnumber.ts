@@ -7,6 +7,7 @@ import { HTTP } from '@ionic-native/http';
 import moment from 'moment';
 import { StatisticsPage } from '../statistics/statistics';
 import { QueuePage } from '../queue/queue';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-getnumber',
@@ -16,7 +17,8 @@ export class GetNumberPage {
   
   constructor(public navCtrl: NavController,
     public qrScan: QRScanner,
-    public http: HTTP) {
+    public http: HTTP,
+    private storage: Storage) {
       
     }
     
@@ -61,7 +63,9 @@ export class GetNumberPage {
         this.parameters.MinhaSenha = resultConverted.code;
         this.parameters.SenhaAtual = result.Analytics.currentNumber;
         this.parameters.AverageTime = Math.round(average);
-
+        
+        this.storage.set('senhaAtiva', this.parameters);
+        
         this.navCtrl.push(QueuePage, { 'params' : this.parameters });
       }).catch((error) => {
         this.messageFromAliens = error;

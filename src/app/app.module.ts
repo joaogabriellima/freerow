@@ -5,6 +5,7 @@ import { MyApp } from './app.component';
 
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { HTTP } from '@ionic-native/http';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -24,7 +25,8 @@ import { StatisticsPage } from '../pages/statistics/statistics';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
