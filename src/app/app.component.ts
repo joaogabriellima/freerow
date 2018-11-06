@@ -5,34 +5,64 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Storage } from '@ionic/storage';
 import { QueuePage } from '../pages/queue/queue';
+import { HTTP } from '@ionic-native/http';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage: any = TabsPage;
-  
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage) {
+
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public http: HTTP) {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
       this.VerifyStorage();
     });
   }
-  
+
   VerifyStorage() {
     var local = this.storage;
-    
-    if(local.get('senhaAtiva') != null) {
-      // Dar request usando os parâmetros e ver se esta ativo
-      // Se estiver ativo a root é a Queue
-      // Se não estiver a root é a Tabs mesmo e zera o storage
-      // local.set('senhaAtiva', null); -> Isso zera o storage, se tiver dúvida ve na doc
 
-      this.rootPage = QueuePage;
-    }
-    else {
-      this.rootPage = TabsPage;
-    }
+    local.get('senhaAtiva')
+      .then(data => {
+        if (data != null) {
+          this.VerifyServiceRequest(data)
+            .then(res => {
+              if (res) {
+                this.rootPage = QueuePage;
+              }
+              else {
+                local.set('senhaAtiva', null);
+                this.rootPage = TabsPage;
+              }
+            })
+            .catch(err => {
+              local.set('senhaAtiva', null);
+              this.rootPage = TabsPage;
+            });
+        }
+        else {
+          local.set('senhaAtiva', null);
+          this.rootPage = TabsPage;
+        }
+      });
+  }
+
+  VerifyServiceRequest(data) {
+    return new Promise<boolean>((resolve, reject) => {
+      this.http.get(('http://localhost:3000/servicerequest/' + data.Id), {}, {})
+        .then(item => {
+          if (item != null && item.data != '' && item.data.status != 2) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          resolve(false);
+        })
+    });
   }
 }

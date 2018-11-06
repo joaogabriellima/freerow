@@ -7,22 +7,28 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'queue.html'
 })
 export class QueuePage {
-  
+
   parameters = {
     MinhaSenha: null,
     Data: null,
     AverageTime: null,
-    SenhaAtual: null
+    SenhaAtual: null,
+    Id: null
   }
-  
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
-    if (this.navParams.get('params') != null) 
-    this.parameters = this.navParams.get('params');
+    if (this.navParams.get('params') != null)
+      this.parameters = this.navParams.get('params');
     else {
-      var a = this.storage.get('senhaAtiva');
-      this.parameters = null; // Tem que dar um jeito de igualar o storage get com o parameters
+      this.storage.get('senhaAtiva')
+        .then(data => {
+          this.parameters = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
-  
-  
+
+
 }

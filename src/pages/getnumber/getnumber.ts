@@ -14,63 +14,69 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'getnumber.html'
 })
 export class GetNumberPage {
-  
+
   constructor(public navCtrl: NavController,
     public qrScan: QRScanner,
     public http: HTTP,
     private storage: Storage) {
-      
-    }
-    
-    messageFromAliens: any;
-    parameters = {
-      MinhaSenha: null,
-      Data: null,
-      AverageTime: null,
-      SenhaAtual: null
-    }
-    
-    scanTheCode() {
-      this.qrScan.prepare().then((status: QRScannerStatus) => {
-        if (status.authorized) {
-          let scanSub = this.qrScan.scan().subscribe((text: string) => {
-            this.sendRequest(text);
-            this.qrScan.hide();
-            scanSub.unsubscribe();
-            window.document.querySelector('ion-app').classList.remove('transparentBody');
-          });      
-          
-          this.qrScan.show();
-          window.document.querySelector('ion-app').classList.add('transparentBody');
-        } else if (status.denied) {
-          
-        } else {
-          
-        }
-      }).catch((e: any) => {
-        console.log('Error is', e);
-      })
-    }
-    
-    sendRequest(link) {
-      this.http.post(link, {}, {})
-      .then(data => { 
+
+  }
+
+  messageFromAliens: any;
+  parameters = {
+    Id: null,
+    MinhaSenha: null,
+    Data: null,
+    AverageTime: null,
+    SenhaAtual: null
+  }
+
+  //Test
+  generateCode() {
+    this.sendRequest('http://localhost:3000/servicerequest/add/1');
+  }
+
+  scanTheCode() {
+    this.qrScan.prepare().then((status: QRScannerStatus) => {
+      if (status.authorized) {
+        let scanSub = this.qrScan.scan().subscribe((text: string) => {
+          this.sendRequest(text);
+          this.qrScan.hide();
+          scanSub.unsubscribe();
+          window.document.querySelector('ion-app').classList.remove('transparentBody');
+        });
+
+        this.qrScan.show();
+        window.document.querySelector('ion-app').classList.add('transparentBody');
+      } else if (status.denied) {
+
+      } else {
+
+      }
+    }).catch((e: any) => {
+      console.log('Error is', e);
+    })
+  }
+
+  sendRequest(link) {
+    this.http.post(link, {}, {})
+      .then(data => {
         var result = JSON.parse(data.data);
-        var resultConverted = JSON.parse(result.ServiceRequest);
-        var dateToConvert = new Date(resultConverted.created);
-        var average = (((result.Analytics.averageWaitTime)/1000)/60);
+        var dateToConvert = new Date(result.ServiceRequest.createDate);
+        var average = (((result.Analytics.averageWaitTime) / 1000) / 60);
         this.parameters.Data = moment(dateToConvert, 'ddd MMM yyyy HH:mm').format('DD/MM/YYYY HH:mm');
-        this.parameters.MinhaSenha = resultConverted.code;
+        this.parameters.MinhaSenha = result.ServiceRequest.code;
         this.parameters.SenhaAtual = result.Analytics.currentNumber;
         this.parameters.AverageTime = Math.round(average);
-        
+        this.parameters.Id = result.ServiceRequest._id;
+
         this.storage.set('senhaAtiva', this.parameters);
-        
-        this.navCtrl.push(QueuePage, { 'params' : this.parameters });
+        console.log(this.parameters);
+        this.navCtrl.push(QueuePage, { 'params': this.parameters });
       }).catch((error) => {
         this.messageFromAliens = error;
+        console.log(error);
       });
-    }
-    
   }
-  
+
+}
