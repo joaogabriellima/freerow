@@ -56,6 +56,7 @@ export class StatisticsPage {
         resolve();
       }).catch(error => {
         alert('Ocorreu um erro, por favor contate o administrador!');
+        this.running = false;
       });
     });
   }

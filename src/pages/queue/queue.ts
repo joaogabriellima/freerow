@@ -66,7 +66,7 @@ export class QueuePage {
       this.http.get(this.apiUrl + '/analytics/current/1', {}, {}).then(success => {
         const res = JSON.parse(success.data);
 
-        if (res.averageWaitTime != null && this.parameters.MinhaSenha > res.currentNumber)
+        if (res.averageWaitTime != null && this.parameters.MinhaSenha >= res.currentNumber)
           this.parameters.AverageTime = this.ConvertDate(res.averageWaitTime) * (this.parameters.MinhaSenha - res.currentNumber);
 
         this.parameters.SenhaAtual = res.currentNumber;
