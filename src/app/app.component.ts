@@ -56,7 +56,7 @@ export class MyApp {
       this.http.get((this.apiUrl + '/servicerequest/' + data.Id), {}, {})
         .then(item => {
           const res = item != null ? JSON.parse(item.data) : null
-          if (res != null && res != '' && res.status != 2) {
+          if (res != null && res != '' && res.status != 2 && res.status != 3) {
             resolve(true);
           } else {
             resolve(false);

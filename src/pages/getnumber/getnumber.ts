@@ -20,7 +20,7 @@ export class GetNumberPage {
     public qrScan: QRScanner,
     public http: HTTP,
     private storage: Storage) {
-      
+
   }
 
   apiUrl = ambiente.API_URL;
@@ -34,7 +34,7 @@ export class GetNumberPage {
     SenhaAtual: null
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.VerifyStorage();
   }
 
@@ -78,7 +78,7 @@ export class GetNumberPage {
         this.parameters.Id = result.ServiceRequest._id;
 
         this.storage.set('senhaAtiva', this.parameters);
-        console.log(this.parameters);
+
         this.navCtrl.push(QueuePage, { 'params': this.parameters });
       }).catch((error) => {
         this.messageFromAliens = error;
@@ -112,7 +112,7 @@ export class GetNumberPage {
       this.http.get((this.apiUrl + '/servicerequest/' + data.Id), {}, {})
         .then(item => {
           const res = item != null ? JSON.parse(item.data) : null
-          if (res != null && res != '' && res.status != 2) {
+          if (res != null && res != '' && res.status != 2 && res.status != 3) {
             resolve(true);
           } else {
             resolve(false);

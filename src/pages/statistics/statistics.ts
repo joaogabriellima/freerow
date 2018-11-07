@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { updateLocale } from 'moment';
 import { HTTP } from '@ionic-native/http';
 import { ambiente } from '../../config/config';
-import moment from 'moment';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/takeWhile';
 
 @Component({
   selector: 'page-statistics',
@@ -12,28 +15,48 @@ import moment from 'moment';
 export class StatisticsPage {
 
   apiUrl = ambiente.API_URL;
-  paramsToUse = {
-    AverageWaitTime: null,
-    averageWaitConverted: null,
-    CurrentNumber: null,
+
+  running = true;
+
+  parameters = {
+    AverageTime: null
   };
 
   constructor(public navCtrl: NavController, public http: HTTP) {
+    this.request();
+  }
 
+  ionViewWillLeave(){
+    this.running = false;
   }
 
   ionViewWillEnter() {
-    this.http.get(this.apiUrl + '/analytics/current/1', {}, {}).then(success => {
-       this.paramsToUse = JSON.parse(success.data);
+    this.running = true;
+    this.refreshData();
+  }
 
-      if (this.paramsToUse.AverageWaitTime != null)
-        this.paramsToUse.averageWaitConverted = this.ConvertDate(this.paramsToUse.AverageWaitTime);
-      else
-        this.paramsToUse.averageWaitConverted = 0;
+  refreshData() {
+    Observable
+      .interval(5000)
+      .takeWhile(a => {
+        return this.running;
+      })
+      .do(a => this.request())
+      .subscribe();
+  }
 
+  request() {
+    return new Promise((resolve, reject) => {
+      this.http.get(this.apiUrl + '/analytics/current/1', {}, {}).then(success => {
+        const res = JSON.parse(success.data);
 
-    }).catch(error => {
-      alert('Ocorreu um erro, por favor contate o administrador!');
+        if (res.averageWaitTime != null)
+          this.parameters.AverageTime = this.ConvertDate(res.averageWaitTime);
+
+        resolve();
+      }).catch(error => {
+        alert('Ocorreu um erro, por favor contate o administrador!');
+      });
     });
   }
 
