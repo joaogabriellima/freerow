@@ -8,6 +8,7 @@ import moment from 'moment';
 import { StatisticsPage } from '../statistics/statistics';
 import { QueuePage } from '../queue/queue';
 import { Storage } from '@ionic/storage';
+import { ambiente } from '../../config/config';
 
 @Component({
   selector: 'page-getnumber',
@@ -19,8 +20,10 @@ export class GetNumberPage {
     public qrScan: QRScanner,
     public http: HTTP,
     private storage: Storage) {
-
+      
   }
+
+  apiUrl = ambiente.API_URL;
 
   messageFromAliens: any;
   parameters = {
@@ -31,9 +34,13 @@ export class GetNumberPage {
     SenhaAtual: null
   }
 
+  ionViewWillEnter(){
+    this.VerifyStorage();
+  }
+
   //Test
   generateCode() {
-    this.sendRequest('http://localhost:3000/servicerequest/add/1');
+    this.sendRequest(this.apiUrl + '/servicerequest/add/1');
   }
 
   scanTheCode() {
@@ -77,6 +84,45 @@ export class GetNumberPage {
         this.messageFromAliens = error;
         console.log(error);
       });
+  }
+
+
+
+  VerifyStorage() {
+    var local = this.storage;
+
+    local.get('senhaAtiva')
+      .then(data => {
+        if (data != null) {
+          this.VerifyServiceRequest(data)
+            .then(res => {
+              if (res) {
+                this.navCtrl.push(QueuePage);
+              }
+            })
+            .catch(err => {
+              local.set('senhaAtiva', null);
+            });
+        }
+      });
+  }
+
+  VerifyServiceRequest(data) {
+    return new Promise<boolean>((resolve, reject) => {
+      this.http.get((this.apiUrl + '/servicerequest/' + data.Id), {}, {})
+        .then(item => {
+          const res = item != null ? JSON.parse(item.data) : null
+          if (res != null && res != '' && res.status != 2) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          resolve(false);
+        })
+    });
   }
 
 }

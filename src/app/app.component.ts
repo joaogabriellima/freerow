@@ -6,12 +6,14 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { Storage } from '@ionic/storage';
 import { QueuePage } from '../pages/queue/queue';
 import { HTTP } from '@ionic-native/http';
+import { ambiente } from '../config/config';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage: any = TabsPage;
+  apiUrl = ambiente.API_URL;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public http: HTTP) {
     platform.ready().then(() => {
@@ -51,9 +53,10 @@ export class MyApp {
 
   VerifyServiceRequest(data) {
     return new Promise<boolean>((resolve, reject) => {
-      this.http.get(('http://localhost:3000/servicerequest/' + data.Id), {}, {})
+      this.http.get((this.apiUrl + '/servicerequest/' + data.Id), {}, {})
         .then(item => {
-          if (item != null && item.data != '' && item.data.status != 2) {
+          const res = item != null ? JSON.parse(item.data) : null
+          if (res != null && res != '' && res.status != 2) {
             resolve(true);
           } else {
             resolve(false);

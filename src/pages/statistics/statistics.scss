@@ -1,23 +1,80 @@
 page-statistics {
-    ion-page {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .toolbar-md {
-        text-align: center;
-    }
-    
-    .fixedColumn {
-        text-align: center;
-        margin-top: 7em;
-    }
-    
-    .iconText {
-        font-size: 15em;
-    }
-    
-    .qrText {
-        color: #f09;
-        font-size: 1.3em;
-        font-weight: bold;
-    }
+  ion-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .back-button .disable-hover .bar-button .bar-button-ios .back-button-ios .bar-button-default .bar-button-default-ios .show-back-button
+  {
+      display: none;
+  }
+
+  .toolbar-md {
+    text-align: center;
+  }
+
+  .fixedColumn {
+    text-align: center;
+    margin-top: 7em;
+  }
+
+  .iconText {
+    font-size: 15em;
+  }
+
+  .qrText {
+    color: #f09;
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+
+  .customText {
+    font-size: 1em;
+    color: #919191;
+    text-transform: uppercase;
+  }
+
+  ion-content {
+    text-align: center;
+  }
+
+  .toolbar-md {
+    text-align: center;
+  }
+
+  .allContent {
+    text-align: center;
+    margin-top: 1em;
+  }
+
+  .allContent span {
+    width: 100%;
+  }
+
+  .number {
+    font-size: 3em;
+    color: #4d4d4d;
+  }
+
+  .errorText {
+    font-size: 1.1em;
+    margin-top: .2em;
+    color: rgb(211, 46, 46);
+  }
+
+  .textNumber {
+    font-size: 1.5em;
+    color: #919191;
+    text-transform: uppercase;
+  }
+
+  .customText {
+    font-size: 1em;
+    color: #919191;
+    text-transform: uppercase;
+  }
+
+  .setMargin {
+    margin-top: .8em;
+  }
+
 }

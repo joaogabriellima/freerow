@@ -9,18 +9,25 @@
 <ion-content padding>
   <div>
     <ion-row>
-      <ion-col class="fixedColumn">
-        <ion-icon class="iconText" name="stats"></ion-icon>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset-2 col-8>
-        <ion-row>
-          <span>Normalmente as senhas demoram:</span>
-        </ion-row>
-        <ion-row>
-          
-        </ion-row>
+      <ion-col offset-2 col-8 class="allContent">
+        <div class="setMargin">
+          <ion-row>
+            <ion-col class="fixedColumn">
+              <ion-icon class="iconText" name="stats"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div class="setMargin">
+          <ion-row>
+            <span class="customText">Tempo medio de espera:</span>
+          </ion-row>
+          <ion-row>
+            <span class="number">{{paramsToUse.averageWaitConverted != null ? paramsToUse.averageWaitConverted : '0'}}</span>
+          </ion-row>
+          <ion-row>
+              <span class="customText">minutos</span>
+            </ion-row>
+        </div> 
       </ion-col>
     </ion-row>
   </div>
