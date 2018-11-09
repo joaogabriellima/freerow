@@ -29,7 +29,6 @@ export class GetNumberPage {
   parameters = {
     Id: null,
     MinhaSenha: null,
-    Data: null,
     AverageTime: null,
     SenhaAtual: null
   }
@@ -69,9 +68,7 @@ export class GetNumberPage {
     this.http.post(link, {}, {})
       .then(data => {
         var result = JSON.parse(data.data);
-        var dateToConvert = new Date(result.ServiceRequest.createDate);
         var average = (((result.Analytics.averageWaitTime) / 1000) / 60);
-        this.parameters.Data = moment(dateToConvert, 'ddd MMM yyyy HH:mm').format('DD/MM/YYYY HH:mm');
         this.parameters.MinhaSenha = result.ServiceRequest.code;
         this.parameters.SenhaAtual = result.Analytics.currentNumber;
         this.parameters.AverageTime = Math.round(average);

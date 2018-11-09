@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, CardTitle } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 import { ambiente } from '../../config/config';
 
@@ -8,25 +8,36 @@ import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/takeWhile';
 
+import { Chart } from 'chart.js';
+
 @Component({
   selector: 'page-statistics',
   templateUrl: 'statistics.html'
 })
 export class StatisticsPage {
 
+  @ViewChild('barCanvas') barCanvas;
+
+  barChart: any;
+
   apiUrl = ambiente.API_URL;
+  explained = 'O tempo demonstrado é apenas uma estimativa com base no tempo dos atendimentos diários!';
 
   running = true;
 
   parameters = {
-    AverageTime: null
+    AverageTime: null,
+    AverageRequests: []
   };
 
   constructor(public navCtrl: NavController, public http: HTTP) {
-    this.request();
+    this.request()
+      .then(data => {
+        this.generateGraphic();
+      });
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.running = false;
   }
 
@@ -41,17 +52,23 @@ export class StatisticsPage {
       .takeWhile(a => {
         return this.running;
       })
-      .do(a => this.request())
+      .do(a => this.request()
+                .then(res => {
+                  this.updataGraphic();
+                }))
       .subscribe();
   }
 
   request() {
     return new Promise((resolve, reject) => {
-      this.http.get(this.apiUrl + '/analytics/current/1', {}, {}).then(success => {
+      const dayOfWeek = new Date().getDay() + 1;
+      this.http.get(this.apiUrl + ('/analytics/day/1/' + dayOfWeek), {}, {}).then(success => {
         const res = JSON.parse(success.data);
 
         if (res.averageWaitTime != null)
-          this.parameters.AverageTime = this.ConvertDate(res.averageWaitTime);
+          this.parameters.AverageTime = this.convertDate(res.averageWaitTime);
+
+        this.parameters.AverageRequests = res.averageRequests;
 
         resolve();
       }).catch(error => {
@@ -61,8 +78,80 @@ export class StatisticsPage {
     });
   }
 
-  ConvertDate(param) {
-    var average = ((param / 1000) / 60);
+  convertDate(param) {
+    const average = ((param / 1000) / 60);
     return Math.round(average);
+  }
+
+  updataGraphic() {
+    this.parameters.AverageRequests.forEach(item => {
+      this.barChart.data.datasets[0].data[item.hour] = item.porcentage;
+    });
+
+    this.barChart.update();
+  }
+
+  generateGraphic() {
+    const averageRequests = this.parameters.AverageRequests;
+    const chartActions = {
+      beforeUpdate: function (chart) {
+        const backgroundColor = [];
+
+        averageRequests.forEach(item => {
+          backgroundColor.push(new Date().getHours() == Number.parseInt(item.hour) ? 'rgba(255, 99, 132, 0.8)' : 'rgba(255, 99, 132, 0.2)');
+        });
+
+        chart.config.data.datasets[0].backgroundColor = backgroundColor;
+      }
+    };
+
+    Chart.pluginService.register(chartActions);
+
+    this.barChart = new Chart(this.barCanvas.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.parameters.AverageRequests.map(item => item.hour),
+        datasets: [{
+          data: this.parameters.AverageRequests.map(item => item.porcentage),
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 0.5
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              display: false,
+              max: 1
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        tooltips: {
+          callbacks: {
+            title: function (tooltipItems) {
+              return Number.parseInt(tooltipItems.yLabel) > .25 ? 'Bem Movimentado' : 'Pouco Movimentado';
+            },
+            label: function (tooltipItems){
+              return '';
+            }
+          },
+          displayColors: false,
+          titleSpacing: 0
+        }
+      }
+
+    });
   }
 }

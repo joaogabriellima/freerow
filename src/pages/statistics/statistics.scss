@@ -3,9 +3,8 @@ page-statistics {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
-  .back-button .disable-hover .bar-button .bar-button-ios .back-button-ios .bar-button-default .bar-button-default-ios .show-back-button
-  {
-      display: none;
+  .back-button .disable-hover .bar-button .bar-button-ios .back-button-ios .bar-button-default .bar-button-default-ios .show-back-button {
+    display: none;
   }
 
   .toolbar-md {
@@ -43,7 +42,7 @@ page-statistics {
 
   .allContent {
     text-align: center;
-    margin-top: 1em;
+    margin-top: .25em;
   }
 
   .allContent span {
@@ -77,4 +76,12 @@ page-statistics {
     margin-top: .8em;
   }
 
+  ion-row>.setMargin {
+    width: 100%;
+  }
+
+  .explainText {
+    font-size: .8em;
+    color: rgb(211, 46, 46);
+  }
 }

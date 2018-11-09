@@ -63,7 +63,7 @@ export class QueuePage {
 
   request() {
     return new Promise((resolve, reject) => {
-      this.http.get(this.apiUrl + '/analytics/current/1', {}, {}).then(success => {
+      this.http.get(this.apiUrl + '/analytics/1', {}, {}).then(success => {
         const res = JSON.parse(success.data);
 
         if (res.averageWaitTime != null && this.parameters.MinhaSenha >= res.currentNumber)
