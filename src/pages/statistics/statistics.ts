@@ -84,8 +84,8 @@ export class StatisticsPage {
   }
 
   updataGraphic() {
-    this.parameters.AverageRequests.forEach(item => {
-      this.barChart.data.datasets[0].data[item.hour] = item.porcentage;
+    this.parameters.AverageRequests.forEach((item, index) => {
+      this.barChart.data.datasets[0].data[index] = item.porcentage;
     });
 
     this.barChart.update();
@@ -141,7 +141,7 @@ export class StatisticsPage {
         tooltips: {
           callbacks: {
             title: function (tooltipItems) {
-              return Number.parseInt(tooltipItems.yLabel) > .25 ? 'Bem Movimentado' : 'Pouco Movimentado';
+              return tooltipItems[0].yLabel > 0.125 ? 'Bem Movimentado' : 'Pouco Movimentado';
             },
             label: function (tooltipItems){
               return '';
