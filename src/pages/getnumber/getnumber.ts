@@ -39,7 +39,7 @@ export class GetNumberPage {
 
   //Test
   generateCode() {
-    this.sendRequest(this.apiUrl + '/servicerequest/add/1');
+    this.sendRequest(this.apiUrl + '/attendance/create.php');
   }
 
   scanTheCode() {
@@ -69,10 +69,10 @@ export class GetNumberPage {
       .then(data => {
         var result = JSON.parse(data.data);
         var average = (((result.Analytics.averageWaitTime) / 1000) / 60);
-        this.parameters.MinhaSenha = result.ServiceRequest.code;
+        this.parameters.MinhaSenha = result.Attendance.queue_number;
         this.parameters.SenhaAtual = result.Analytics.currentNumber;
         this.parameters.AverageTime = Math.round(average);
-        this.parameters.Id = result.ServiceRequest._id;
+        this.parameters.Id = result.Attendance.id;
 
         this.storage.set('senhaAtiva', this.parameters);
 
@@ -106,7 +106,7 @@ export class GetNumberPage {
 
   VerifyServiceRequest(data) {
     return new Promise<boolean>((resolve, reject) => {
-      this.http.get((this.apiUrl + '/servicerequest/' + data.Id), {}, {})
+      this.http.get((this.apiUrl + '/attendance/getStatus.php?id=' + data.Id), {}, {})
         .then(item => {
           const res = item != null ? JSON.parse(item.data) : null
           if (res != null && res != '' && res.status != 2 && res.status != 3) {

@@ -62,13 +62,13 @@ export class StatisticsPage {
   request() {
     return new Promise((resolve, reject) => {
       const dayOfWeek = new Date().getDay() + 1;
-      this.http.get(this.apiUrl + ('/analytics/day/1/' + dayOfWeek), {}, {}).then(success => {
+      this.http.get(this.apiUrl + ('/attendance/getAttendancesByDay.php?dayOfWeek=' + dayOfWeek), {}, {}).then(success => {
         const res = JSON.parse(success.data);
 
         if (res.averageWaitTime != null)
           this.parameters.AverageTime = this.convertDate(res.averageWaitTime);
 
-        this.parameters.AverageRequests = res.averageRequests;
+        this.parameters.AverageRequests = res.averageByHours;
 
         resolve();
       }).catch(error => {
