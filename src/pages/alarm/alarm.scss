@@ -1,0 +1,22 @@
+page-alarm {
+    ion-content{
+        text-align: center;
+        align-content: center;
+    }
+    .toolbar-md {
+        text-align: center;
+    }
+    .referenceRow .item-md.item-block .item-inner {
+        border-bottom: 0px;
+    }
+    .textToLeft {
+        text-align: left;
+    }
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .smallHeight {
+        max-height: 44px;
+    }
+}

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Alarme</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-row>
+    <ion-label>Referência</ion-label>
+  </ion-row>
+  <ion-row class="referenceRow">
+    <ion-list col-12 radio-group [(ngModel)]="refereceToAlarm">
+      <ion-row>
+        <ion-item col-6>
+          <ion-label>Senha</ion-label>
+          <ion-radio value="attendanceNumber"></ion-radio>
+        </ion-item>
+        <ion-item col-6>
+          <ion-label>Tempo</ion-label>
+          <ion-radio value="time"></ion-radio>
+        </ion-item>
+      </ion-row>
+    </ion-list>
+  </ion-row>
+  <div *ngIf="refereceToAlarm == 'attendanceNumber'" >
+    <ion-label>Número de senhas para avisar com atencedência</ion-label>
+    <ion-item col-2 class="smallHeight center">
+      <ion-input type="number" min="0" max="99" [(ngModel)]="attendanceNumber"></ion-input>
+    </ion-item>
+  </div>
+  <div *ngIf="refereceToAlarm == 'time'">
+    <ion-label>Tempo em minutos para avisar com atencedência</ion-label>
+    <ion-row col-6 class="center">
+      <ion-item center col-5 class="smallHeight">
+        <ion-input type="number" min="0" max="999" [(ngModel)]="time"></ion-input>
+      </ion-item>
+      <ion-label col-4 class="textToLeft">min</ion-label>
+    </ion-row>
+  </div>
+  <div *ngIf="refereceToAlarm != null">
+    <ion-row col-12>
+      <button ion-button color="primary" class="center" (click)="saveAlarm()">Save</button>
+    </ion-row>
+  </div>
+</ion-content>

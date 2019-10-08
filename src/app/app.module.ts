@@ -6,6 +6,8 @@ import { MyApp } from './app.component';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { HTTP } from '@ionic-native/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -14,6 +16,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { QueuePage } from '../pages/queue/queue';
 import { GetNumberPage } from '../pages/getnumber/getnumber';
 import { StatisticsPage } from '../pages/statistics/statistics';
+import { AlarmPage } from '../pages/alarm/alarm';
+import { RequestControlProvider } from '../providers/request-control/request-control';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import { StatisticsPage } from '../pages/statistics/statistics';
     GetNumberPage,
     QueuePage,
     StatisticsPage,
-    TabsPage
+    TabsPage,
+    AlarmPage
   ],
   imports: [
     BrowserModule,
@@ -34,14 +39,18 @@ import { StatisticsPage } from '../pages/statistics/statistics';
     GetNumberPage,
     QueuePage,
     StatisticsPage,
-    TabsPage
+    TabsPage,
+    AlarmPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     QRScanner,
     HTTP,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    BackgroundMode,
+    LocalNotifications,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    RequestControlProvider
   ]
 })
 export class AppModule {}
