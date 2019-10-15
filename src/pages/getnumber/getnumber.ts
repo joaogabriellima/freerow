@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
-import { SELECT_VALUE_ACCESSOR } from '@angular/forms/src/directives/select_control_value_accessor';
 import { HTTP } from '@ionic-native/http';
 
-import moment from 'moment';
-import { StatisticsPage } from '../statistics/statistics';
 import { QueuePage } from '../queue/queue';
-import { Storage } from '@ionic/storage';
 import { ambiente } from '../../config/config';
+import { RequestControlProvider } from '../../providers/request-control/request-control';
 
 @Component({
   selector: 'page-getnumber',
@@ -19,22 +16,14 @@ export class GetNumberPage {
   constructor(public navCtrl: NavController,
     public qrScan: QRScanner,
     public http: HTTP,
-    private storage: Storage) {
-
+    private requestContol: RequestControlProvider) {
   }
 
   apiUrl = ambiente.API_URL;
-
   messageFromAliens: any;
-  parameters = {
-    Id: null,
-    MinhaSenha: null,
-    AverageTime: null,
-    SenhaAtual: null
-  }
 
   ionViewWillEnter() {
-    this.VerifyStorage();
+    this.verifyStorage();
   }
 
   //Test
@@ -67,59 +56,27 @@ export class GetNumberPage {
   sendRequest(link) {
     this.http.post(link, {}, {})
       .then(data => {
-        var result = JSON.parse(data.data);
-        var average = (((result.Analytics.averageWaitTime) / 1000) / 60);
-        this.parameters.MinhaSenha = result.Attendance.queue_number;
-        this.parameters.SenhaAtual = result.Analytics.currentNumber;
-        this.parameters.AverageTime = Math.round(average);
-        this.parameters.Id = result.Attendance.id;
-
-        this.storage.set('senhaAtiva', this.parameters);
-
-        this.navCtrl.push(QueuePage, { 'params': this.parameters });
+        this.requestContol.setParameters(data);
+        this.navCtrl.push(QueuePage);
       }).catch((error) => {
         this.messageFromAliens = error;
         console.log(error);
       });
   }
 
-
-
-  VerifyStorage() {
-    var local = this.storage;
-
-    local.get('senhaAtiva')
+  verifyStorage() {
+    this.requestContol.getParamenter()
       .then(data => {
-        if (data != null) {
-          this.VerifyServiceRequest(data)
+        if(data.Id != null) {
+          this.requestContol.verifyAttendance(data.Id)
             .then(res => {
-              if (res) {
+              if (res == 'Waiting')
                 this.navCtrl.push(QueuePage);
-              }
-            })
-            .catch(err => {
-              local.set('senhaAtiva', null);
+              else if(res == 'InAttendance' || res == 'Done')
+                this.requestContol.validateStatus()
+                  .then((res) => this.requestContol.refreshData());
             });
         }
       });
   }
-
-  VerifyServiceRequest(data) {
-    return new Promise<boolean>((resolve, reject) => {
-      this.http.get((this.apiUrl + '/attendance/getStatus.php?id=' + data.Id), {}, {})
-        .then(item => {
-          const res = item != null ? JSON.parse(item.data) : null
-          if (res != null && res != '' && res.status != 2 && res.status != 3) {
-            resolve(true);
-          } else {
-            resolve(false);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          resolve(false);
-        })
-    });
-  }
-
 }

@@ -1,6 +1,7 @@
+import { RequestControlProvider } from './../providers/request-control/request-control';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, IonicPageModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { QRScanner } from '@ionic-native/qr-scanner';
@@ -17,7 +18,9 @@ import { QueuePage } from '../pages/queue/queue';
 import { GetNumberPage } from '../pages/getnumber/getnumber';
 import { StatisticsPage } from '../pages/statistics/statistics';
 import { AlarmPage } from '../pages/alarm/alarm';
-import { RequestControlProvider } from '../providers/request-control/request-control';
+
+import { StarRatingModule } from 'ionic3-star-rating';
+import { AttendancePage } from '../pages/attendance/attendance';
 
 @NgModule({
   declarations: [
@@ -26,12 +29,18 @@ import { RequestControlProvider } from '../providers/request-control/request-con
     QueuePage,
     StatisticsPage,
     TabsPage,
-    AlarmPage
+    AlarmPage,
+    AttendancePage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicModule.forRoot(MyApp, {}, {
+      links: [
+        {component: AttendancePage, name:'attendance'}
+      ]
+    }),
+    IonicStorageModule.forRoot(),
+    StarRatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,7 +49,8 @@ import { RequestControlProvider } from '../providers/request-control/request-con
     QueuePage,
     StatisticsPage,
     TabsPage,
-    AlarmPage
+    AlarmPage,
+    AttendancePage
   ],
   providers: [
     StatusBar,

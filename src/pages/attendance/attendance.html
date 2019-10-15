@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Atendimento</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="parent" *ngIf="requestControl.status == 'InAttendance'">
+    <div class="center">
+      <ion-row>
+          <img class="center" src="assets/imgs/loading.gif">
+      </ion-row>
+      <ion-row >
+          <ion-label class="center">Em atendimento!!</ion-label>
+      </ion-row>
+    </div>
+  </div>
+  <div class="parent" *ngIf="requestControl.status == 'Done'">
+    <div class="center">
+      <ion-row >
+          <ion-label class="center">Qual nota você daria para o seu atendimento?</ion-label>
+      </ion-row>
+      <ion-row>
+        <ionic3-star-rating #rating
+            activeIcon = "ios-star"
+            defaultIcon = "ios-star-outline"
+            activeColor = "#488aff" 
+            defaultColor = "#000000"
+            readonly="false"
+            rating="3"
+            fontSize = "32px"
+            class="center">
+        </ionic3-star-rating>
+      </ion-row>
+    </div>
+  </div>
+  <div *ngIf="requestControl.status == 'Error'" >
+      <div class="center">
+          <ion-row >
+              <ion-label class="center">ERROR !</ion-label>
+          </ion-row>
+        </div>
+  </div>
+</ion-content>

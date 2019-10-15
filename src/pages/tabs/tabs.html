@@ -1,4 +1,4 @@
-<ion-tabs>
+<ion-tabs #tabContent *ngIf="requestControl.status != 'InAttendance' && requestControl.status != 'Done'">
   <ion-tab [root]="tab1Root" tabTitle="Senha" tabIcon="home"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Alarme" tabIcon="alarm"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="Estatísticas" tabIcon="stats"></ion-tab>

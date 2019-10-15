@@ -25,14 +25,14 @@
   <div *ngIf="refereceToAlarm == 'attendanceNumber'" >
     <ion-label>Número de senhas para avisar com atencedência</ion-label>
     <ion-item col-2 class="smallHeight center">
-      <ion-input type="number" min="0" max="99" [(ngModel)]="attendanceNumber"></ion-input>
+      <ion-input type="number" min="0" max="99" [(ngModel)]="requestControl.attendanceNumber"></ion-input>
     </ion-item>
   </div>
   <div *ngIf="refereceToAlarm == 'time'">
     <ion-label>Tempo em minutos para avisar com atencedência</ion-label>
     <ion-row col-6 class="center">
       <ion-item center col-5 class="smallHeight">
-        <ion-input type="number" min="0" max="999" [(ngModel)]="time"></ion-input>
+        <ion-input type="number" min="0" max="999" [(ngModel)]="requestControl.time"></ion-input>
       </ion-item>
       <ion-label col-4 class="textToLeft">min</ion-label>
     </ion-row>

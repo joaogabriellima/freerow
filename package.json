@@ -1,5 +1,5 @@
 {
-  "name": "Project",
+  "name": "Abeille",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
@@ -47,6 +47,7 @@
     "cordova-support-google-services": "1.3.1",
     "gradle": "^1.0.9",
     "ionic-angular": "3.9.2",
+    "ionic3-star-rating": "^2.1.0",
     "ionicons": "3.0.0",
     "moment": "^2.22.2",
     "node-sass": "^4.12.0",
