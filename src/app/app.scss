@@ -20,3 +20,27 @@
     background: none transparent !important;
     opacity: 0 !important;
 }
+
+.toolbar-background {
+    background-color: #FFEFD4 !important;
+}
+
+.toolbar-title {
+    color: #9A6C26 !important;
+}
+
+ion-tabs > div {
+    background-color: #FFEFD4 !important;
+}
+
+ion-tabs > div > a > span{
+    color: #9A6C26 !important;
+}
+
+.tabs-md .tab-button[aria-selected="false"] .tab-button-icon {
+    color: #9A6C26 !important;
+}
+
+.tabs-md .tab-button[aria-selected="true"] .tab-button-icon {
+    color: rgb(49, 32, 6) !important;
+}
