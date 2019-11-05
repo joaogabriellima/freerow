@@ -44,3 +44,16 @@ ion-tabs > div > a > span{
 .tabs-md .tab-button[aria-selected="true"] .tab-button-icon {
     color: rgb(49, 32, 6) !important;
 }
+
+ion-content.content-md{
+    background-color: #fff6e6;
+    color: #9A6C26 !important;
+}
+
+.item-md {
+    background-color: transparent;
+}
+
+.back-button {
+    color: #9A6C26 !important;
+}
