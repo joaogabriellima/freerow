@@ -79,7 +79,7 @@ export class StatisticsPage {
   }
 
   convertDate(param) {
-    const average = ((param / 1000) / 60);
+    const average = (param / 60);
     return Math.round(average);
   }
 

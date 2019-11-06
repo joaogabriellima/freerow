@@ -77,7 +77,7 @@ export class RequestControlProvider {
 
   setParameters(data) {
     var result = JSON.parse(data.data);
-    var average = (((result.Analytics.averageWaitTime) / 1000) / 60);
+    var average = ((result.Analytics.averageWaitTime) / 60);
     this.parameters.MinhaSenha = result.Attendance.queue_number;
     this.parameters.SenhaAtual = result.Analytics.currentNumber;
     this.parameters.AverageTime = Math.round(average);
@@ -188,7 +188,7 @@ export class RequestControlProvider {
   }
 
   convertDate(param) {
-    var average = ((param / 1000) / 60);
+    var average = (param / 60);
     return Math.round(average);
   }
 
