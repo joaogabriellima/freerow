@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { RequestControlProvider } from '../../providers/request-control/request-control';
 import { Storage } from '@ionic/storage';
 
@@ -14,7 +14,8 @@ export class AlarmPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public requestControl: RequestControlProvider,
-    private storage: Storage) {
+    private storage: Storage,
+    private toastController: ToastController) {
       this.requestControl.startAlarmConfig()
         .then((res) => {
           if (this.requestControl.attendanceNumber != null)
@@ -29,5 +30,12 @@ export class AlarmPage {
       attendanceNumber: this.refereceToAlarm == 'attendanceNumber' ? Number(this.requestControl.attendanceNumber).valueOf() : null,
       time: this.refereceToAlarm == 'time' ? Number(this.requestControl.time).valueOf() : null
     });
+
+    const toast = this.toastController.create({
+      message: 'Alarme salvo!',
+      duration: 1000
+    });
+
+    toast.present();
   }
 }

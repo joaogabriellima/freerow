@@ -45,6 +45,11 @@ ion-tabs > div > a > span{
     color: rgb(49, 32, 6) !important;
 }
 
+.tabs-md .tab-button[aria-selected="true"].tab-disabled ion-icon,
+.tabs-md .tab-button[aria-selected="true"].tab-disabled span {
+    opacity: 1;
+}
+
 ion-content.content-md{
     background-color: #fff6e6;
     color: #9A6C26 !important;

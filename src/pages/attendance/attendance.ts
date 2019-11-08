@@ -9,14 +9,20 @@ import { RequestControlProvider } from '../../providers/request-control/request-
 })
 export class AttendancePage {
 
+  private rating: Number;
+
   constructor(public navCtrl: NavController,
     public requestControl: RequestControlProvider, 
     events: Events) {
     events.subscribe('star-rating:changed', (starRating) => {
-      requestControl.rate(starRating)
-        .then((res) => {
-          this.navCtrl.goToRoot({});
-        });
+      this.rating = starRating;
+    });
+  }
+
+  submeter() {
+    this.requestControl.rate(this.rating)
+    .then((res) => {
+      this.navCtrl.goToRoot({});
     });
   }
 }
