@@ -6,16 +6,22 @@
 
 <ion-content padding>
   <div class="parent" *ngIf="requestControl.status == 'InAttendance'">
-    <div class="center">
-      <ion-row>
-          <img class="center" src="assets/imgs/loading.gif">
-      </ion-row>
-      <ion-row >
-          <ion-label class="center">Em atendimento!!</ion-label>
-      </ion-row>
-    </div>
+    <ion-row *ngIf="requestControl.parameters.AttendentName != null" class="attendentName">
+        <ion-label class="center"><b>Atendente</b>: {{requestControl.parameters.AttendentName}}</ion-label>
+        <ion-label class="center"><b>Sua senha</b>: {{requestControl.parameters.MinhaSenha}}</ion-label>
+    </ion-row>
+    <ion-row class="parent">
+      <div class="center">
+        <ion-row>
+            <img class="center" src="assets/imgs/loading.gif">
+        </ion-row>
+        <ion-row >
+            <ion-label class="center">Em atendimento!!</ion-label>
+        </ion-row>
+      </div>
+    </ion-row>
   </div>
-  <div class="parent" *ngIf="requestControl.status == 'Done'">
+  <div class="parent rate" *ngIf="requestControl.status == 'Done'">
     <div class="center">
       <ion-row >
           <ion-label class="center">Qual nota você daria para o seu atendimento?</ion-label>
@@ -33,14 +39,14 @@
         </ionic3-star-rating>
       </ion-row>
       <ion-row class="submit">
-        <button ion-button color="primary" class="center" (click)="submeter()">Submeter</button>
+        <button ion-button color="primary" class="center" (click)="submeter()">Enviar</button>
       </ion-row>
     </div>
   </div>
   <div *ngIf="requestControl.status == 'Error'" >
       <div class="center">
           <ion-row >
-              <ion-label class="center">ERROR !</ion-label>
+              <ion-label class="center">ERRO !</ion-label>
           </ion-row>
         </div>
   </div>

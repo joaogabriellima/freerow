@@ -6,13 +6,21 @@ page-attendance {
     ion-label.center {
         text-align: center;
     }
-    div.parent {
+    .parent {
         height: 100%;
+        width: 100%;
         display: flex;
+        flex-direction: column;
+    }
+    ion-row.parent, div.rate {
         align-items: center;
         align-content: center;
+        justify-content: center;
     }
     .submit {
         margin-top: 50px;
+    }
+    .attendentName > ion-label{
+        font-size: large;
     }
 }

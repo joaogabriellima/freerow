@@ -33,7 +33,8 @@ export class RequestControlProvider {
     Data: null,
     AverageTime: null,
     SenhaAtual: null,
-    Id: null
+    Id: null,
+    AttendentName: null
   }
 
   constructor(public http: HTTP,
@@ -127,6 +128,9 @@ export class RequestControlProvider {
     return new Promise((resolve, reject) => {
       this.getAttendanceStatus(this.parameters.Id)
         .then((res) => {
+          if (res.full_name != null)
+            this.parameters.AttendentName = res.full_name;
+
           if (res.status == 1) {
             this.app.getActiveNav().push('GetNumberPage');
             this.status = Status.Lost;
@@ -258,7 +262,8 @@ export class RequestControlProvider {
       Data: null,
       AverageTime: null,
       SenhaAtual: null,
-      Id: null
+      Id: null,
+      AttendentName: null
     };
   }
 }
